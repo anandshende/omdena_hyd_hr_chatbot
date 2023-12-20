@@ -25,7 +25,7 @@ def generate_questions(
     question_collection: chromadb.Collection = get_collection_from_vector_db(vdb, 'question_collection')
     
     sentences = split_into_sentences(candidate_profile)
-    question_df = pd.DataFrame(columns=["question", "q_id", "interview_phase", "position"])
+    question_df = pd.DataFrame(columns=["question", "q_id", "interview_phase", "position", "distance"])
     
     for sentence in sentences:
         query_response = question_collection.query(
@@ -33,12 +33,17 @@ def generate_questions(
             where={'position': position}
         )
     
-        for q_id, metadata, document in zip(query_response['ids'][0], query_response['metadatas'][0], query_response['documents'][0]):
+        for q_id, metadata, document, distance in zip(query_response['ids'][0], query_response['metadatas'][0], query_response['documents'][0], query_response['distances'][0]):
+            # print('-------------------------')
+            # print(q_id)
+            # print(metadata)
+            # print(document)
             row = pd.DataFrame(data={
                 'q_id': [q_id],
                 'interview_phase': [metadata.get('interview_phase', None)],
                 'position': [metadata.get('position', None)],
-                'question': [document]
+                'question': [document],
+                'distance': [distance]
             })
             
             question_df = pd.concat([
