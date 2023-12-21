@@ -46,3 +46,9 @@ The project follows the following folder structure:
 │    ├── main.py                      --> Main application file
 └── tests/                            --> Directory containing all unit tests
 ```
+
+
+### Chroma DB UI - Chroma Peek
+cd chroma-ui
+pip install -r requirements.txt
+streamlit run chroma-peek/main.py
