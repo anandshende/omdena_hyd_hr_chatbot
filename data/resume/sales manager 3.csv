@@ -1,0 +1,8 @@
+,question,q_id,interview_phase,position,distance
+0,What do you look for in a company?,q_id670,Introduction,Sales Manager,0.6315284967422485
+1,How does this position fit your career goals?,q_id562,Introduction,Sales Manager,0.630122721195221
+2,How would you deal with a sales rep who was underperforming?,q_id570,Behavioral,Sales Manager,0.5127029418945312
+3,Tell me about a time where you had to deal with a difficult customer. How did you handle it and what steps did you take?,q_id620,Behavioral,Sales Manager,0.5117696523666382
+4,Can you give specific examples of how you got to know members of your team well enough to assign prioritized sales leads effectively?,q_id474,Technical,Sales Manager,0.5090726017951965
+5,Where would you like to be in your career five years from now?,q_id763,Conclusion,Sales Manager,0.5842393040657043
+6,What are you looking for in terms of career development?,q_id647,Conclusion,Sales Manager,0.48304325342178345

@@ -1,0 +1,5 @@
+,question,q_id,interview_phase,position,distance
+0,what qualities and skills did you have why do you want to work here what could you bring to the company?,q_id1756,Introduction,Medical Assistant,0.4789345860481262
+1,what do you think makes a Good medical assistant,q_id1844,Introduction,Medical Assistant,0.28079015016555786
+2,what is your best quality for this job,q_id1544,Conclusion,Medical Assistant,0.5407077074050903
+3,describe your experience as a medical assistant,q_id1388,Conclusion,Medical Assistant,0.32753294706344604

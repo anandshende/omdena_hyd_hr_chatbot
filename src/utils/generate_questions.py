@@ -74,7 +74,7 @@ def filter_questions(original_question_df: pd.DataFrame):
         else:
             matched_df = original_question_df[original_question_df.interview_phase == phase][:1]
         
-        if matched_df.shape(0) == 1:
+        if matched_df.shape[0] == 1:
             original_question_df = original_question_df.drop(index=matched_df.index[0])
             
             result_df = pd.concat([
@@ -82,4 +82,4 @@ def filter_questions(original_question_df: pd.DataFrame):
                 matched_df
             ])
     
-    return result_df
+    return result_df.reset_index(drop=True)
