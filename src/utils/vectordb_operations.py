@@ -24,7 +24,7 @@ def generate_qa_vector_db(vdb_path: str, df: pd.DataFrame) -> None:
     )
 
     print('q_collection will be added')
-    q_collection = chroma_client.create_collection(
+    q_collection = chroma_client.get_or_create_collection(
         name="question_collection",
         metadata={"hnsw:space": "cosine"},
         embedding_function=huggingface_ef,
@@ -49,20 +49,21 @@ def generate_qa_vector_db(vdb_path: str, df: pd.DataFrame) -> None:
     print('q_collection added')
 
     print('a_collection will be added')
-    a_collection = chroma_client.create_collection(
+    a_collection = chroma_client.get_or_create_collection(
         name="answer_collection",
         metadata={"hnsw:space": "cosine"},
         embedding_function=huggingface_ef,
     )
 
-    df_answers = df[["Answer"]]
+    df_answers = df[["Answer", "Answer Quality"]]
     df_answers.columns = [
         x.replace(" ", "_").lower().replace("/", "_or_") for x in df_answers.columns
     ]
-
+    
     a_documents = [row.answer for row in df_answers.itertuples()]
     a_ids = ["a_id" + str(row.Index) for row in df_answers.itertuples()]
-    a_metadata = [{"q_id": id} for id in q_ids]
+    
+    a_metadata = [{"q_id": id, 'quality': quality} for id, quality in zip(q_ids, df_answers['answer_quality'])]
 
     a_collection.add(documents=a_documents, ids=a_ids, metadatas=a_metadata)
     print('a_collection added')
