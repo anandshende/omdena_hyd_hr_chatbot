@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from datetime import datetime
 from utils.generate_questions import generate_questions
 from utils.vectordb_operations import get_collection_from_vector_db
 
@@ -15,6 +15,9 @@ if __name__ == "__main__":
         vdb_location,
         "\n",
     )
+    start = datetime.now()
+    print("Question generation process started at: ", datetime.now(), "\n")
+
     question_collection = get_collection_from_vector_db(
         vdb_location, "question_collection"
     )
@@ -25,5 +28,8 @@ if __name__ == "__main__":
         question_collection,
     )
 
+    print("Question generation process ended at: ", datetime.now(), "\n")
+    print("Total time taken for question generation: ", datetime.now() - start, "\n")
+
     print(questions_df.head(10))
-    print(questions_df.shape)
+    print("Shape of dataframe is:", questions_df.shape)

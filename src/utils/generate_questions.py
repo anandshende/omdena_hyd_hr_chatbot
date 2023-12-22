@@ -48,7 +48,7 @@ def generate_questions(
                 {"interview_phase": {"$eq": "Introduction"}},
             ]
         },
-        n_results=1,
+        n_results=2,
     )
 
     # Check if sufficient(2) introduction questions returned by semantic search.
