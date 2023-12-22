@@ -23,7 +23,7 @@ def generate_qa_vector_db(vdb_path: str, df: pd.DataFrame) -> None:
         model_name="sentence-transformers/all-MiniLM-L6-v2",
     )
 
-    print('q_collection will be added')
+    print("q_collection will be added")
     q_collection = chroma_client.create_collection(
         name="question_collection",
         metadata={"hnsw:space": "cosine"},
@@ -31,7 +31,9 @@ def generate_qa_vector_db(vdb_path: str, df: pd.DataFrame) -> None:
     )
 
     # Keep only question-related columns
-    df_questions = df[["Position/Role", "Question", "Interview Phase"]]
+    df_questions = df[
+        ["Position/Role", "Question", "Interview Phase"]
+    ].drop_duplicates()
 
     # df_questions = df_questions.drop_duplicates().reset_index(drop=True)
     df_questions.columns = [
@@ -46,26 +48,28 @@ def generate_qa_vector_db(vdb_path: str, df: pd.DataFrame) -> None:
     q_ids = ["q_id" + str(row.Index) for row in df_questions.itertuples()]
 
     q_collection.add(documents=q_documents, metadatas=q_metadata, ids=q_ids)
-    print('q_collection added')
+    print("q_collection added")
 
-    print('a_collection will be added')
+    print("a_collection will be added")
     a_collection = chroma_client.create_collection(
         name="answer_collection",
         metadata={"hnsw:space": "cosine"},
         embedding_function=huggingface_ef,
     )
 
-    df_answers = df[["Answer"]]
+    df_answers = df[["Answer", "Answer Quality"]]
     df_answers.columns = [
         x.replace(" ", "_").lower().replace("/", "_or_") for x in df_answers.columns
     ]
 
     a_documents = [row.answer for row in df_answers.itertuples()]
+    a_metadata = [
+        {"answer_quality": row.answer_quality} for row in df_answers.itertuples()
+    ]
     a_ids = ["a_id" + str(row.Index) for row in df_answers.itertuples()]
-    a_metadata = [{"q_id": id} for id in q_ids]
 
     a_collection.add(documents=a_documents, ids=a_ids, metadatas=a_metadata)
-    print('a_collection added')
+    print("a_collection added")
     return None
 
 
